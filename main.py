@@ -10,9 +10,9 @@ import traceback,time,datetime,os,argparse,platform,schedule
 
 #checking the platform
 if platform.system() == 'Darwin':
-    chrome_default_path = '/Users/dhruvbansal/Desktop/chromedriver'
+    chrome_default_path = os.getcwd()+'/chromedriver'
 else:
-    chrome_default_path = os.getcwd() + 'chromedriver.exe'
+    chrome_default_path = os.getcwd() + '\chromedriver.exe'
 
 parser = argparse.ArgumentParser(description='PyWhatsapp Guide')
 parser.add_argument('--chrome_driver_path', action='store', type=str, default=chrome_default_path,
