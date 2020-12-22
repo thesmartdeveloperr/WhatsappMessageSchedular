@@ -6,9 +6,9 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
-import traceback,time,datetime,os,argparse,platform,schedule
+import time,os,argparse,platform,schedule
 
-#checking the platform
+#checking the platform[by checking kernals]
 if platform.system() == 'Darwin':
     chrome_default_path = os.getcwd()+'/chromedriver'
 else:
