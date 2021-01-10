@@ -43,18 +43,18 @@ def input_contacts():
                 inp = str(input("Enter the contact name(the same text as saved on your phone): "))
                 inp = '"' + inp + '"'
                 Contact.append(inp)
-            choi = input("Do you want to add more contacts to send to?(y/n): ")
-            if choi == "n" or choi=="no":
+            choice = input("Do you want to add more contacts to send to?(y/n): ")
+            if choice == "n" or choice=="no":
                 break
     if len(Contact) != 0:
         print("\nYou have selected the contacts: ", Contact)
     input("\nPlease press ENTER to continue...")
 
+
 def input_message():
     global message
     global frequency
-    print(
-        "\nEnter the message you want to send or schedule to send later and use symbol '~' to end your message:\nFor example: Hi, this is a test message~\n\nYour message: ")
+    print("\nEnter the message you want to send or schedule to send later and use symbol '~' to end your message:\nFor example: Hi, this is a test message~\n\nYour message: ")
     message = []
     done = False
 
@@ -68,10 +68,11 @@ def input_message():
     message = "\n".join(message)
     frequency=int(input('How many times do you want to send this message?[enter a number]'))
     print('YOUR MESSAGE IS:')
-    print('__________________________________________________________')
+    print('_________________________________________________________________________')
     print(message)
-    print('__________________________________________________________')
-    print('AND THE NUMBER OF TIMES YOU ARE SENDING THIS MESSAGE IS:',frequency)
+    print('_________________________________________________________________________')
+    print('AND THE NUMBER OF TIMES YOU ARE SENDING THIS MESSAGE IS:', frequency)
+
 
 def whatsapp_login(chrome_path, headless):
     global wait, browser, Link
@@ -84,6 +85,7 @@ def whatsapp_login(chrome_path, headless):
     browser.get(Link)
     browser.maximize_window()
     print("QR code is Scanned successfully.")
+
 
 def send_message(target):
     global message, wait, browser
@@ -113,6 +115,7 @@ def send_message(target):
         print("send message exception: ", e)
         return
 
+
 def sender():
     global Contact
     print(Contact)
@@ -124,31 +127,31 @@ def sender():
             print("Msg to {} send Exception {}".format(i, e))
     # time.sleep(5)
 
+
 def scheduler():
     while True:
         schedule.run_pending()
         time.sleep(1)
 
+
 if __name__ == "__main__":
     if not Contact:
         input_contacts()
-    if message == None:
+    if message is None:
         input_message()
 
-    isSchedule = input('Do you want to schedule your Message(yes/no):')
-    if (isSchedule == "yes"):
-        jobtime = input('Enter time for sending the message in 24 hour(HH:MM) format - ')
+    isSchedule = input('Do you want to schedule your Message[yes/no]:')
+    if isSchedule == "yes":
+        jobTime = input('Enter time for sending the message in 24 hour[HH:MM] format - ')
 
     print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
     whatsapp_login(args.chrome_driver_path, args.enable_headless)
 
     if isSchedule == "yes":
         for i in range(frequency):
-            schedule.every().day.at(jobtime).do(sender)
+            schedule.every().day.at(jobTime).do(sender)
     else:
         for i in range(frequency):
             sender()
         print("Task is Completed Successfully")
     scheduler()
-    
-    # end of project :)
