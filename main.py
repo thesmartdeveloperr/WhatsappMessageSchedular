@@ -38,22 +38,23 @@ def input_contacts():
     global Contact
     Contact = []
     while True:
-            n = int(input('Enter number of Contacts to add(count): '))
+            n = int(input('Enter number of people to send messages to: '))
             for i in range(0, n):
-                inp = str(input("Enter the saved contact name(text): "))
+                inp = str(input("Enter the contact name(the same text as saved on your phone): "))
                 inp = '"' + inp + '"'
                 Contact.append(inp)
-            choi = input("Do you want to add more contacts(y/n): ")
-            if choi == "n":
+            choi = input("Do you want to add more contacts to send to?(y/n): ")
+            if choi == "n" or choi=="no":
                 break
     if len(Contact) != 0:
-        print("\nSaved contacts entered list:", Contact)
-    input("\nPress ENTER to continue...")
+        print("\nYou have selected the contacts: ", Contact)
+    input("\nPlease press ENTER to continue...")
 
 def input_message():
     global message
+    global frequency
     print(
-        "\nEnter the message and use symbol '~' to end message:\nFor example: Hi, this is a test message~\n\nYour message: ")
+        "\nEnter the message you want to send or schedule to send later and use symbol '~' to end your message:\nFor example: Hi, this is a test message~\n\nYour message: ")
     message = []
     done = False
 
@@ -65,7 +66,12 @@ def input_message():
         else:
             message.append(temp)
     message = "\n".join(message)
+    frequency=int(input('How many times do you want to send this message?[enter a number]'))
+    print('YOUR MESSAGE IS:')
+    print('__________________________________________________________')
     print(message)
+    print('__________________________________________________________')
+    print('AND THE NUMBER OF TIMES YOU ARE SENDING THIS MESSAGE IS:',frequency)
 
 def whatsapp_login(chrome_path, headless):
     global wait, browser, Link
@@ -102,7 +108,7 @@ def send_message(target):
                 input_box.send_keys(ch)
         input_box.send_keys(Keys.ENTER)
         print("Message sent successfully")
-        time.sleep(1)
+        # time.sleep(1)
     except NoSuchElementException as e:
         print("send message exception: ", e)
         return
@@ -116,7 +122,7 @@ def sender():
             print("Message sent to ", i)
         except Exception as e:
             print("Msg to {} send Exception {}".format(i, e))
-    time.sleep(5)
+    # time.sleep(5)
 
 def scheduler():
     while True:
@@ -137,8 +143,12 @@ if __name__ == "__main__":
     whatsapp_login(args.chrome_driver_path, args.enable_headless)
 
     if isSchedule == "yes":
-        schedule.every().day.at(jobtime).do(sender)
+        for i in range(frequency):
+            schedule.every().day.at(jobtime).do(sender)
     else:
-        sender()
+        for i in range(frequency):
+            sender()
         print("Task is Completed Successfully")
     scheduler()
+    
+    # end of project :)
