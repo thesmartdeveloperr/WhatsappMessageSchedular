@@ -8,9 +8,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
 import time,os,argparse,platform,schedule
 
-#checking the platform[by checking kernals]
 if platform.system() == 'Darwin':
-    chrome_default_path = os.getcwd()+'/chromedriver'
+    chrome_default_path = os.getcwd() +'/chromedriver'
 else:
     chrome_default_path = os.getcwd() + '\chromedriver.exe'
 
